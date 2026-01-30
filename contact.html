@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Kiyimlar Do'koni - Online sotuv va yetkazib berish</title>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+
+     <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-tshirt"></i>
+                <span>Kiyimlar Do'koni</span>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Qidirish...">
+                <button id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+
+                <div class="button-use">
+                    <button>
+                        <a href="index.html" class="arrent">Do'kon</a>
+                    </button>
+                </div>
+                <p class="p-img">🗺</p>
+            </header>
+
+    <main class="container mx-auto px-6 py-16">
+        <h1 class="text-4xl font-bold text-center mb-12">Наши филиалы</h1>
+        <div class="grid md:grid-cols-2 gap-12">
+            <div class="space-y-4">
+                <h2 class="text-2xl font-semibold mb-4">Выберите город:</h2>
+                <div class="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-lg transition" onclick="showBranch(41.561349, 69.781814, 'Газалкент')">
+                    <h3 class="font-bold text-lg">Газалкент</h3>
+                    <p class="text-gray-600">ул.Бирлик, 15\36</p>
+                    <p class="text-gray-600">+998 (94) 632-32-72</p>
+                </div>
+                <!-- <div class="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-lg transition" onclick="showBranch(41.366816, 69.286550, 'Юнусабад')">
+                    <h3 class="font-bold text-lg">Юнусабад</h3>
+                    <p class="text-gray-600">Невский проспект, 50</p>
+                    <p class="text-gray-600">+7 (812) 987-65-43</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-lg transition" onclick="showBranch(41.335002, 69.215354, 'Тинчлик')">
+                    <h3 class="font-bold text-lg">Тинчлик</h3>
+                    <p class="text-gray-600">Beruniy shoh ko'chasi 35A, 100174, Тоshkent, Toshkent, Узбекистан</p>
+                    <p class="text-gray-600">+7 (423) 111-22-33</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-lg transition" onclick="showBranch(41.216019, 69.226035, 'Сергели')">
+                    <h3 class="font-bold text-lg">Сергели</h3>
+                    <p class="text-gray-600">улица Бирлик, 18А</p>
+                    <p class="text-gray-600">+7 (343) 555-66-77</p>
+                </div> -->
+            </div>
+            <div class="h-96 md:h-full min-h-96 rounded-lg overflow-hidden shadow-xl">
+                <div id="map" class="w-full h-full"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Kiyimlar Do'koni. Barcha huquqlar himoyalangan.</p>
+            <p class="contact-info">
+                <i class="fas fa-phone"></i> +998 94 632 32 72 |
+                <i class="fas fa-envelope"></i> info@kiyimlardokoni.uz |
+                <i class="fas fa-clock"></i> 9:00 - 21:00
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>

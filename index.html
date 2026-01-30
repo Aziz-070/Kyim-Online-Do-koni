@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiyimlar Do'koni - Online sotuv va yetkazib berish</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👕</text></svg>">
+</head>
+<body>
+    <!-- Header qismi -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-tshirt"></i>
+                <span>Kiyimlar Do'koni</span>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Qidirish...">
+                <button id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="user-section">
+                <!-- Admin panel -->
+                <div class="admin-panel" id="adminPanel" style="display: none;">
+                    <button class="admin-btn" id="adminOrdersBtn">
+                        <i class="fas fa-truck"></i> Buyurtmalar
+                        <span class="notification-badge" id="newOrdersCount">0</span>
+                    </button>
+                </div>
+
+                <div class="button-user">
+                    <button>
+                        <a href="contact.html" class="arrent">Do'konlarimiz</a>
+                    </button>
+                </div>
+                
+                <!-- Auth buttons -->
+                <div class="auth-buttons" id="authButtons">
+                    <button class="auth-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Kirish
+                    </button>
+                    <button class="auth-btn" id="registerBtn">
+                        <i class="fas fa-user-plus"></i> Ro'yxatdan o'tish
+                    </button>
+                </div>
+                
+                <!-- User profile -->
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <div class="user-info">
+                        <span id="userName">Foydalanuvchi</span>
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-item" id="viewProfile">
+                            <i class="fas fa-user"></i> Profilim
+                        </div>
+                        <div class="dropdown-item" id="myOrders">
+                            <i class="fas fa-shopping-bag"></i> Buyurtmalarim
+                        </div>
+                        <div class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Chiqish
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cart icon -->
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="category-buttons">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th-large"></i> Barchasi
+                </button>
+                <button class="category-btn" data-category="ayollar">
+                    <i class="fas fa-female"></i> Ayollar
+                </button>
+                <button class="category-btn" data-category="erkaklar">
+                    <i class="fas fa-male"></i> Erkaklar
+                </button>
+                <button class="category-btn" data-category="bolalar">
+                    <i class="fas fa-child"></i> Bolalar
+                </button>
+            </div>
+            
+            <div class="sort-buttons">
+                <button class="sort-btn" data-sort="default">
+                    <i class="fas fa-sort"></i> Standart
+                </button>
+                <button class="sort-btn" data-sort="price-low">
+                    <i class="fas fa-sort-amount-down"></i> Arzon
+                </button>
+                <button class="sort-btn" data-sort="price-high">
+                    <i class="fas fa-sort-amount-up"></i> Qimmat
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main content -->
+    <main class="container">
+        <h1 class="main-title">Mavjud Mahsulotlar</h1>
+        
+        <!-- Cart info banner -->
+        <div class="cart-info-banner" id="cartInfoBanner" style="display: none;">
+            <p><i class="fas fa-info-circle"></i> Sizning savatingizda <span id="userCartCount">0</span> ta mahsulot mavjud. 
+            <a href="#" id="viewCartLink">Ko'rish</a></p>
+        </div>
+        
+        <!-- Products grid -->
+        <div class="products-container" id="productsContainer">
+            <!-- Products will be loaded here -->
+        </div>
+    </main>
+    
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal auth-modal">
+            <div class="modal-header">
+                <h2 id="authModalTitle">Kirish</h2>
+                <button class="close-modal" id="closeAuthModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail"><i class="fas fa-envelope"></i> Email yoki telefon</label>
+                        <input type="text" id="loginEmail" placeholder="email@example.com yoki +998901234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword"><i class="fas fa-lock"></i> Parol</label>
+                        <input type="password" id="loginPassword" placeholder="Parolingiz">
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="adminLogin">
+                        <label for="adminLogin">Admin sifatida kirish</label>
+                    </div>
+                    <button class="auth-submit-btn" id="loginSubmitBtn">Kirish</button>
+                    <p class="auth-switch">Hisobingiz yo'qmi? <a href="#" id="switchToRegister">Ro'yxatdan o'ting</a></p>
+                </div>
+                
+                <div class="auth-form" id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="registerName"><i class="fas fa-user"></i> Ism va familiya</label>
+                        <input type="text" id="registerName" placeholder="Ism va familiyangiz">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone"><i class="fas fa-phone"></i> Telefon raqam</label>
+                        <input type="tel" id="registerPhone" placeholder="+998901234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail"><i class="fas fa-envelope"></i> Email (ixtiyoriy)</label>
+                        <input type="email" id="registerEmail" placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword"><i class="fas fa-lock"></i> Parol</label>
+                        <input type="password" id="registerPassword" placeholder="Parol (kamida 6 ta belgi)">
+                    </div>
+                    <button class="auth-submit-btn" id="registerSubmitBtn">Ro'yxatdan o'tish</button>
+                    <p class="auth-switch">Allaqachon hisobingiz bormi? <a href="#" id="switchToLogin">Kirish</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="cartModalTitle">Savat</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="cartItems">
+                <p class="empty-cart">Savat hozircha bo'sh</p>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-user-info" id="cartUserInfo" style="display: none;">
+                    <i class="fas fa-user"></i> <span id="cartUserName">Foydalanuvchi</span> uchun savat
+                </div>
+                <div class="cart-total">
+                    Jami: <span id="cartTotal">0</span> so'm
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">
+                    <i class="fas fa-credit-card"></i> Buyurtma berish
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal checkout-modal">
+            <div class="modal-header">
+                <h2>Buyurtma berish</h2>
+                <button class="close-modal" id="closeCheckoutModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="delivery-info">
+                    <h3><i class="fas fa-truck"></i> Yetkazib berish ma'lumotlari</h3>
+                    <div class="form-group">
+                        <label for="deliveryName"><i class="fas fa-user"></i> Ism va familiya</label>
+                        <input type="text" id="deliveryName" placeholder="Ism va familiyangiz">
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryPhone"><i class="fas fa-phone"></i> Telefon raqam</label>
+                        <input type="tel" id="deliveryPhone" placeholder="+998901234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryAddress"><i class="fas fa-map-marker-alt"></i> Yetkazib berish manzili</label>
+                        <textarea id="deliveryAddress" rows="3" placeholder="To'liq manzilingizni kiriting"></textarea>
+                    </div>
+                    <div class="payment-methods">
+                        <h4><i class="fas fa-money-bill-wave"></i> To'lov usuli</h4>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cash" checked>
+                                <span class="payment-label">
+                                    <i class="fas fa-money-bill"></i>
+                                    Naqd to'lov
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card">
+                                <span class="payment-label">
+                                    <i class="fas fa-credit-card"></i>
+                                    Karta orqali
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h3><i class="fas fa-receipt"></i> Buyurtma xulosasi</h3>
+                    <div id="checkoutSummary">
+                        <!-- Order items will be loaded here -->
+                    </div>
+                    <div class="summary-total">
+                        <span>Jami:</span>
+                        <span id="checkoutTotal">0 so'm</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="back-to-cart" id="backToCartBtn">
+                    <i class="fas fa-arrow-left"></i> Savatga qaytish
+                </button>
+                <button class="confirm-order-btn" id="confirmOrderBtn">
+                    <i class="fas fa-check"></i> Buyurtmani tasdiqlash
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Mening Profilim</h2>
+                <button class="close-modal" id="closeProfileModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-info">
+                    <div class="profile-header">
+                        <i class="fas fa-user-circle profile-icon"></i>
+                        <h3 id="profileUserName">Foydalanuvchi</h3>
+                        <p id="profileUserEmail">email@example.com</p>
+                        <p id="profileUserPhone" class="phone-number">+998 90 123 45 67</p>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="stat-text">
+                                <span class="stat-value" id="profileCartCount">0</span>
+                                <span class="stat-label">Savatdagi mahsulot</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-shopping-bag"></i>
+                            <div class="stat-text">
+                                <span class="stat-value" id="profileOrderCount">0</span>
+                                <span class="stat-label">Buyurtma</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div class="stat-text">
+                                <span class="stat-value" id="profileMemberSince">2023</span>
+                                <span class="stat-label">A'zo bo'lgan</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-orders">
+                        <h4>So'nggi buyurtmalar</h4>
+                        <div id="recentOrdersList">
+                            <p class="no-orders">Hozircha buyurtmalar yo'q</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Orders Modal -->
+    <div class="modal-overlay" id="adminOrdersModal">
+        <div class="modal admin-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-truck"></i> Barcha buyurtmalar</h2>
+                <button class="close-modal" id="closeAdminOrdersModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="orders-filter">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-status="all">Barchasi</button>
+                        <button class="filter-btn" data-status="new">Yangi</button>
+                        <button class="filter-btn" data-status="processing">Jarayonda</button>
+                        <button class="filter-btn" data-status="delivered">Yetkazilgan</button>
+                    </div>
+                </div>
+                
+                <div class="orders-list" id="ordersList">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Order Details Modal -->
+    <div class="modal-overlay" id="orderDetailsModal">
+        <div class="modal order-details-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-invoice"></i> Buyurtma #<span id="orderDetailsId">000</span></h2>
+                <button class="close-modal" id="closeOrderDetailsModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-status-section">
+                    <div class="status-badge" id="orderStatusBadge">
+                        <span class="status-text">Yangi</span>
+                    </div>
+                    <div class="status-actions" id="statusActions">
+                        <!-- Status buttons will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="order-sections">
+                    <div class="order-section">
+                        <h3><i class="fas fa-user"></i> Mijoz ma'lumotlari</h3>
+                        <div class="customer-info">
+                            <p><strong>Ism:</strong> <span id="customerName">-</span></p>
+                            <p><strong>Telefon:</strong> <span id="customerPhone" class="phone-number">-</span></p>
+                            <p><strong>Email:</strong> <span id="customerEmail">-</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-section">
+                        <h3><i class="fas fa-map-marker-alt"></i> Yetkazib berish ma'lumotlari</h3>
+                        <div class="delivery-details">
+                            <p><strong>Manzil:</strong> <span id="deliveryAddressText">-</span></p>
+                            <p><strong>To'lov usuli:</strong> <span id="paymentMethod">-</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-section">
+                        <h3><i class="fas fa-shopping-bag"></i> Mahsulotlar</h3>
+                        <div class="order-items-list" id="orderItemsList">
+                            <!-- Order items will be loaded here -->
+                        </div>
+                        <div class="order-total-section">
+                            <p><strong>Jami summa:</strong> <span id="orderTotalAmount">0</span> so'm</p>
+                            <p><strong>Buyurtma vaqti:</strong> <span id="orderDate">-</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-actions">
+                    <button class="contact-btn" id="callCustomerBtn">
+                        <i class="fas fa-phone"></i> Mijozga qo'ng'iroq qilish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Kiyimlar Do'koni. Barcha huquqlar himoyalangan.</p>
+            <p class="contact-info">
+                <i class="fas fa-phone"></i> +998 94 632 32 72 |
+                <i class="fas fa-envelope"></i> info@kiyimlardokoni.uz |
+                <i class="fas fa-clock"></i> 9:00 - 21:00
+            </p>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
